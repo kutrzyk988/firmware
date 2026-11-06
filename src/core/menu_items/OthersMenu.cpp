@@ -5,6 +5,7 @@
 #include "modules/badusb_ble/ducky_typer.h"
 #include "modules/bjs_interpreter/interpreter.h"
 #include "modules/others/clicker.h"
+#include "modules/others/glass2_companion.h"
 #include "modules/others/ibutton.h"
 #include "modules/others/mic.h"
 #include "modules/others/qrcode_menu.h"
@@ -29,6 +30,9 @@ void OthersMenu::optionsMenu() {
 #ifndef LITE_VERSION
         {"iButton",      setup_ibutton                },
 #endif
+
+        {String("Glass2 Display: ") + (Glass2Companion::isEnabled() ? "ON" : "OFF"),
+         [this]() { Glass2Companion::setEnabled(!Glass2Companion::isEnabled()); }},
 
         // Timer removed - moved to another "Clock"
     };
