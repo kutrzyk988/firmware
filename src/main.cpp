@@ -7,6 +7,7 @@
 #include "core/serial_commands/cli.h"
 #include "core/utils.h"
 #include "current_year.h"
+#include "modules/others/glass2_companion.h"
 #include "esp32-hal-psram.h"
 #include "esp_heap_caps.h"
 #include "esp_task_wdt.h"
@@ -103,6 +104,7 @@ void __attribute__((weak)) taskInputHandler(void *parameter) {
             touchPoint.pressed = false;
             touchPoint.Clear();
             checkAndRecoverSysI2CBus();
+            Glass2Companion::loop(); // cheap no-op unless enabled in Others > Glass2 Display
 #ifndef USE_TFT_eSPI_TOUCH
             InputHandler();
 #endif
@@ -492,6 +494,7 @@ void setup() {
     _pre_storage_gpio();
     begin_storage();
     RAM_LOG("after-storage"); // bruceConfig/bruceConfigPins loaded from FS
+    Glass2Companion::setup();
     begin_tft();
     init_clock();
     init_led();
